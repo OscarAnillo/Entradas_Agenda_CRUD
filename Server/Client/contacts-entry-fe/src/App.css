@@ -100,16 +100,18 @@
   right: 5px;
 }
 .all-persons-div-map p {
-  color: #000;
+  cursor: pointer;
   text-decoration: none;
 }
 .all-persons-div-map p a {
+  color: red;
   text-decoration: none;
 }
 .all-persons-div-map .btn-edit {
   background-color: transparent;
   border: 1px solid red;
   border-radius: 5px;
+  cursor: pointer;
   margin: 0.4em 0;
   padding: 0.2em 0.5em;
   text-transform: uppercase;

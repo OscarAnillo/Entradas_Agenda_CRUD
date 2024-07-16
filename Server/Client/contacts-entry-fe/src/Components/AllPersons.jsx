@@ -33,7 +33,7 @@ export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
                   {person.name} {person.lastName}
                 </Link>
               </p>
-              <p>#{person.contact}</p>
+              <p>{person.contact}</p>
               <button
                 className="btn-delete"
                 onClick={() => clickHandlerDelete(person._id)}
