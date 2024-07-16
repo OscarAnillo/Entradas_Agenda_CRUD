@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon Index.js",
-    "build": "npm install --prefix ../Client/contacts-entry-fe && npm run build --prefix ../Client/contacts-entry-fe && npm install /contacts-entry ",
+    "build": "npm install --prefix ../Client/contacts-entry-fe && npm run build --prefix ../Client/contacts-entry-fe && npm install contacts-entry ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Oscar Anillo",

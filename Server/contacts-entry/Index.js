@@ -20,6 +20,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../Client/contacts-entry-fe/dist"));
 });
 
+console.log(p)
+
 app.get("/api/persons", async (req, res) => {
   try {
     let allPersons = await Person.find({});
