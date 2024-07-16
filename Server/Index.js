@@ -12,13 +12,13 @@ const port = process.env.PORT || 3005;
 app.use(morgan("common"));
 app.use(cors());
 app.use(express.json());
-app.use(
-  express.static(path.join(__dirname, "../Client/contacts-entry-fe/dist"))
-);
+app.use(express.static(path.join(__dirname, "Client/contacts-entry-fe/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Client/contacts-entry-fe/dist"));
+  res.sendFile(path.join(__dirname, "Client/contacts-entry-fe/dist"));
 });
+
+console.log(__dirname);
 
 app.get("/api/persons", async (req, res) => {
   try {
