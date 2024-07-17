@@ -15,9 +15,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "/Client/contacts-entry-fe/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "/Client/contacts-entry-fe/dist/index.html")
-  );
+  res.sendFile(path.join(__dirname, "/Client/contacts-entry-fe/dist"));
 });
 
 app.get("/api/persons", async (req, res) => {
