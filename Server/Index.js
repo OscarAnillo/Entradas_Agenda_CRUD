@@ -14,12 +14,6 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, "Client/contacts-entry-fe/dist")));
 
-// app.get("*", (req, res) => {
-//   res.sendFile(
-//     path.join(__dirname, "/Client/contacts-entry-fe/dist/index.html")
-//   );
-// });
-
 app.get("/api/persons", async (req, res) => {
   try {
     let allPersons = await Person.find({});
@@ -36,6 +30,19 @@ app.get("/api/persons/:id", async (req, res) => {
   } catch (err) {
     res.status(404).json(err);
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "/Client/contacts-entry-fe/dist/index.html"),
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Sent");
+      }
+    }
+  );
 });
 
 app.post("/api/persons", async (req, res) => {
