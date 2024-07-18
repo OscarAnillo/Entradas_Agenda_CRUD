@@ -3,7 +3,7 @@ const express = require("express");
 const Person = require("./Model/Person");
 const morgan = require("morgan");
 const cors = require("cors");
-const path = require("path");
+//const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3005;
@@ -12,7 +12,7 @@ const port = process.env.PORT || 3005;
 app.use(morgan("common"));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "/Client/contacts-entry-fe/dist")));
+app.use(express.static("Client/contacts-entry-fe/dist"));
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "/Client/contacts-entry-fe/dist"));
@@ -46,7 +46,6 @@ app.post("/api/persons", async (req, res) => {
       email: body.email,
     });
     const personToSave = await newPerson.save();
-    console.log(personToSave);
     res.status(200).json(personToSave);
   } catch (err) {
     res.status(500).json(err);
