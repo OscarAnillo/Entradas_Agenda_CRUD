@@ -12,7 +12,7 @@ const port = process.env.PORT || 3005;
 app.use(morgan("common"));
 app.use(express.json());
 app.use(cors());
-app.use(express.static("Client/contacts-entry-fe/dist"));
+app.use(express.static(path.join(__dirname, "Client/contacts-entry-fe/dist")));
 
 // app.get("*", (req, res) => {
 //   res.sendFile(
