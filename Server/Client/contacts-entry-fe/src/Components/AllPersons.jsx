@@ -13,7 +13,7 @@ export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
   const clickHandlerEdit = (id) => {
     const personToEdit = persons.find((person) => person._id === id);
     setEditing(personToEdit);
-    navigate(`/add-contact`);
+    navigate("/add-contact");
   };
 
   return (
