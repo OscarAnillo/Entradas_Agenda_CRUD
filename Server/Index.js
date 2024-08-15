@@ -1,12 +1,11 @@
 require("dotenv").config();
 const express = require("express");
-const Person = require("./Model/Person");
-const morgan = require("morgan");
 const cors = require("cors");
+const morgan = require("morgan");
 const path = require("path");
+const Person = require("./Model/Person");
 
 const app = express();
-const port = process.env.PORT || 3005;
 
 /* Middleware */
 app.use(morgan("common"));
@@ -23,12 +22,16 @@ app.get("/api/persons", async (req, res) => {
   }
 });
 
-app.get("/api/persons/:id", async (req, res) => {
+app.get("/api/persons/:id", async (req, res, next) => {
   try {
     const singlePerson = await Person.findById(req.params.id);
-    res.json(singlePerson);
+    if (singlePerson) {
+      res.json(singlePerson);
+    } else {
+      res.status(404).end();
+    }
   } catch (err) {
-    res.status(404).json(err);
+    next(err);
   }
 });
 
@@ -48,6 +51,13 @@ app.get("*", (req, res) => {
 app.post("/api/persons", async (req, res) => {
   try {
     const body = req.body;
+
+    if (body.name === undefined || !body.name || !body.contact) {
+      return res
+        .status(400)
+        .json({ error: "Contact name or contact # is missing" });
+    }
+
     const newPerson = new Person({
       name: body.name,
       lastName: body.lastName,
@@ -61,7 +71,7 @@ app.post("/api/persons", async (req, res) => {
   }
 });
 
-app.patch("/api/persons/:id", async (req, res) => {
+app.patch("/api/persons/:id", async (req, res, next) => {
   try {
     const personToPatch = await Person.findByIdAndUpdate(req.params.id);
     if (personToPatch) {
@@ -71,7 +81,7 @@ app.patch("/api/persons/:id", async (req, res) => {
       res.status(404).json("Contact cannot be updated now.");
     }
   } catch (err) {
-    res.status(500).json(err);
+    next(err);
   }
 });
 
@@ -84,9 +94,24 @@ app.delete("/api/persons/:id", async (req, res, next) => {
       res.status(404).send("Contact was not found!");
     }
   } catch (err) {
-    res.status(500).send("Something went wrong!");
-    next();
+    next(err);
   }
 });
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: "unknown endpoint" });
+};
+app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.log(error.message);
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "Malformatted Id" });
+  }
+  next(error);
+};
+
+app.use(errorHandler);
+
+const port = process.env.PORT || 3005;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
