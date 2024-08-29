@@ -20,36 +20,40 @@ export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
     <>
       <h1>Your Contacts</h1>
       <NavComponent />
-      <div className="all-persons-div">
-        {persons.map((person) => (
-          <div key={person._id} className="all-persons-div-map">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              alt=""
-            />
-            <div>
-              <p>
-                <Link to={`/${person._id}`}>
-                  {person.name} {person.lastName}
-                </Link>
-              </p>
-              <p>{person.contact}</p>
-              <button
-                className="btn-delete"
-                onClick={() => clickHandlerDelete(person._id)}
-              >
-                x
-              </button>
-              <button
-                onClick={() => clickHandlerEdit(person._id)}
-                className="btn-edit"
-              >
-                Edit
-              </button>
+      {persons.length ? (
+        <div className="all-persons-div">
+          {persons.map((person) => (
+            <div key={person._id} className="all-persons-div-map">
+              <img
+                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                alt=""
+              />
+              <div>
+                <p>
+                  <Link to={`/${person._id}`}>
+                    {person.name} {person.lastName}
+                  </Link>
+                </p>
+                <p>{person.contact}</p>
+                <button
+                  className="btn-delete"
+                  onClick={() => clickHandlerDelete(person._id)}
+                >
+                  x
+                </button>
+                <button
+                  onClick={() => clickHandlerEdit(person._id)}
+                  className="btn-edit"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <h1>No Contacts yet</h1>
+      )}
     </>
   );
 };

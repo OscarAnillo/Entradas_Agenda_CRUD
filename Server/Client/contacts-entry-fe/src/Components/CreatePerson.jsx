@@ -44,7 +44,10 @@ export const CreatePerson = ({
   const submitHandler = (e) => {
     e.preventDefault();
     if (!name || !contact) {
-      return alert("Please fill all the required fields");
+      return alert("Please provide a name and number for the new contact!");
+    }
+    if (contact.length < 10) {
+      return alert(`Please ensure that ${contact} is 10 digits long`);
     }
     if (!editing) {
       createNewPerson({ name, lastName, contact, email });

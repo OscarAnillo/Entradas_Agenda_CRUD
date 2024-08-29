@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const config = require("../Utils/config");
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(config.MONGO_URI)
   .then(() => {
     console.log("Connecting to the database...");
     console.log("Connected!");
@@ -9,9 +10,16 @@ mongoose
   .catch((err) => console.log(err));
 
 const personSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   lastName: String,
-  contact: String,
+  contact: {
+    type: String,
+    required: true,
+    minLength: 10,
+  },
   email: String,
 });
 

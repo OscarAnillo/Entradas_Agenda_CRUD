@@ -2,116 +2,21 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
-const path = require("path");
-const Person = require("./Model/Person");
-
+const config = require("./Utils/config");
+const PersonRouter = require("./Controllers/contacts");
+const middleware = require("./Utils/middleware");
 const app = express();
 
 /* Middleware */
-app.use(morgan("common"));
+//app.use(express.static(path.join(__dirname, "Client/contacts-entry-fe/dist")));
+app.use(express.static("Client/contacts-entry-fe/dist"));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, "Client/contacts-entry-fe/dist")));
+app.use(morgan("common"));
 
-app.get("/api/persons", async (req, res) => {
-  try {
-    let allPersons = await Person.find({});
-    res.json(allPersons);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
+app.use("/api/persons", PersonRouter);
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
-app.get("/api/persons/:id", async (req, res, next) => {
-  try {
-    const singlePerson = await Person.findById(req.params.id);
-    if (singlePerson) {
-      res.json(singlePerson);
-    } else {
-      res.status(404).end();
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get("*", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "/Client/contacts-entry-fe/dist/index.html"),
-    (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Sent");
-      }
-    }
-  );
-});
-
-app.post("/api/persons", async (req, res) => {
-  try {
-    const body = req.body;
-
-    if (body.name === undefined || !body.name || !body.contact) {
-      return res
-        .status(400)
-        .json({ error: "Contact name or contact # is missing" });
-    }
-
-    const newPerson = new Person({
-      name: body.name,
-      lastName: body.lastName,
-      contact: body.contact,
-      email: body.email,
-    });
-    const personToSave = await newPerson.save();
-    res.status(200).json(personToSave);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-app.patch("/api/persons/:id", async (req, res, next) => {
-  try {
-    const personToPatch = await Person.findByIdAndUpdate(req.params.id);
-    if (personToPatch) {
-      await personToPatch.updateOne({ $set: req.body });
-      res.status(200).json("The contact has been updated");
-    } else {
-      res.status(404).json("Contact cannot be updated now.");
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.delete("/api/persons/:id", async (req, res, next) => {
-  try {
-    const personToRemove = await Person.findByIdAndDelete(req.params.id);
-    if (personToRemove) {
-      res.status(200).send("Contact was removed");
-    } else {
-      res.status(404).send("Contact was not found!");
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
-app.use(unknownEndpoint);
-
-const errorHandler = (error, request, response, next) => {
-  console.log(error.message);
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "Malformatted Id" });
-  }
-  next(error);
-};
-
-app.use(errorHandler);
-
-const port = process.env.PORT || 3005;
+const port = config.PORT || 3005;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
