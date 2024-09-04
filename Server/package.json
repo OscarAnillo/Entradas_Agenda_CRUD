@@ -7,7 +7,7 @@
     "dev": "nodemon Index.js",
     "lint": "eslint",
     "build": "npm run build --prefix ./Client/contacts-entry-fe && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "author": "Oscar Anillo",
   "license": "ISC",
