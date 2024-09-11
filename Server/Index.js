@@ -31,3 +31,5 @@ app.use(middleware.errorHandler);
 app.listen(config.PORT, () =>
   console.log(`Server listening on port ${config.PORT}`)
 );
+
+module.exports = app;

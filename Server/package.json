@@ -4,10 +4,11 @@
   "description": "This is an exercise of a  fullstack app with no relational data base",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon Index.js",
+    "start": "cross-env NODE_ENV=production node Index.js",
+    "dev": "cross-env NODE_ENV=development nodemon Index.js",
+    "test": "cross-env NODE_ENV=test node --test",
     "lint": "eslint",
-    "build": "npm run build --prefix ./Client/contacts-entry-fe && npm install",
-    "test": "node --test"
+    "build": "npm run build --prefix ./Client/contacts-entry-fe && npm install"
   },
   "author": "Oscar Anillo",
   "license": "ISC",
@@ -15,13 +16,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mongoose": "^8.4.4",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.1.4"
+    "mongoose": "^8.4.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9.9.1",
-    "globals": "^15.9.0"
+    "globals": "^15.9.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   }
 }

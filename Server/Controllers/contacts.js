@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
       email: body.email,
     });
     const personToSave = await newPerson.save();
-    res.status(200).json(personToSave);
+    res.status(201).json(personToSave);
   } catch (err) {
     next(err);
   }
