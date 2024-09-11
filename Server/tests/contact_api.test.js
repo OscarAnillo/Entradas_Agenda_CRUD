@@ -82,6 +82,20 @@ test("Contact cannot be save without name or contact", async () => {
   assert.strictEqual(response.body.length, initialContacts.length);
 });
 
+test("Contact can be updated through a patch request", async () => {
+  const patchContact = {
+    lastName: "Patch Test",
+  };
+  await api
+    .patch("/api/persons/66d8d0b26d9280ed8f1c5286")
+    .send(patchContact)
+    .expect("Content-Type", /json/)
+    .expect(200);
+
+  const response = await api.get("/api/persons");
+  assert.strictEqual(response.body[1].lastName, patchContact.lastName);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
