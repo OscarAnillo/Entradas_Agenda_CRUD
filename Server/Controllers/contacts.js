@@ -20,21 +20,20 @@ router.get("/:id", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  const body = req.body;
+  if (body.name === undefined || !body.name || !body.contact) {
+    return res
+      .status(400)
+      .json({ error: "Contact name or contact # is missing" });
+  }
+  const newPerson = new Person({
+    name: body.name,
+    lastName: body.lastName,
+    contact: body.contact,
+    email: body.email,
+  });
+
   try {
-    const body = req.body;
-
-    if (body.name === undefined || !body.name || !body.contact) {
-      return res
-        .status(400)
-        .json({ error: "Contact name or contact # is missing" });
-    }
-
-    const newPerson = new Person({
-      name: body.name,
-      lastName: body.lastName,
-      contact: body.contact,
-      email: body.email,
-    });
     const personToSave = await newPerson.save();
     res.status(201).json(personToSave);
   } catch (err) {

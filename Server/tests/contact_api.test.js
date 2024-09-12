@@ -2,33 +2,17 @@ const { test, after, beforeEach } = require("node:test");
 const assert = require("node:assert");
 const mongoose = require("mongoose");
 const supertest = require("supertest");
+const helper = require("./test_helper");
 const app = require("../Index");
 const Person = require("../Model/Person");
 
 const api = supertest(app);
 
-const initialContacts = [
-  {
-    _id: "66d78e42ba7c3521d5905903",
-    contact: "1112223333",
-    email: "test@example.com",
-    lastName: "Subject",
-    name: "Test",
-  },
-  {
-    _id: "66d8d0b26d9280ed8f1c5286",
-    contact: "5555555555",
-    email: "test@example.com",
-    lastName: "Me",
-    name: "Test",
-  },
-];
-
 beforeEach(async () => {
   await Person.deleteMany({});
-  let personObject = new Person(initialContacts[0]);
+  let personObject = new Person(helper.initialContacts[0]);
   await personObject.save();
-  personObject = new Person(initialContacts[1]);
+  personObject = new Person(helper.initialContacts[1]);
   await personObject.save();
 });
 
@@ -39,9 +23,29 @@ test("Contacts are returned as json", async () => {
     .expect("Content-Type", /application\/json/);
 });
 
+test("All contacts are returned", async () => {
+  const response = await api.get("/api/persons");
+  assert.strictEqual(response.body.length, helper.initialContacts.length);
+});
+
+test("A specific contact can be viewed", async () => {
+  const startContacts = await helper.initialContacts;
+
+  const contactToView = startContacts[0];
+
+  const resultContact = await api
+    .get(`/api/persons/${contactToView._id}`)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  delete resultContact.body.__v;
+
+  assert.deepStrictEqual(resultContact.body, contactToView);
+});
+
 test("there are two contacts", async () => {
   const response = await api.get("/api/persons");
-  assert.strictEqual(response.body.length, initialContacts.length);
+  assert.strictEqual(response.body.length, helper.initialContacts.length);
 });
 
 test("the first contact name is Test", async () => {
@@ -65,21 +69,21 @@ test("A valid contact can be added", async () => {
     .expect(201)
     .expect("Content-Type", /application\/json/);
 
-  const response = await api.get("/api/persons");
-  const content = response.body.map((r) => r.name);
-  assert.strictEqual(response.body.length, initialContacts.length + 1);
+  const contactsAtEnd = await helper.contactsInBD();
+  assert.strictEqual(contactsAtEnd.length, helper.initialContacts.length + 1);
+  const content = contactsAtEnd.map((r) => r.name);
   assert(content.includes("Test for the post method"));
 });
 
-test("Contact cannot be save without name or contact", async () => {
+test("Contact cannot be save without name or contact #", async () => {
   const newContact = {
     email: "test@example.com",
     lastName: "Fail Test",
   };
   await api.post("/api/persons").send(newContact).expect(400);
 
-  const response = await api.get("/api/persons");
-  assert.strictEqual(response.body.length, initialContacts.length);
+  const conctactsAtEnd = await helper.contactsInBD();
+  assert.strictEqual(conctactsAtEnd.length, helper.initialContacts.length);
 });
 
 test("Contact can be updated through a patch request", async () => {
@@ -94,6 +98,19 @@ test("Contact can be updated through a patch request", async () => {
 
   const response = await api.get("/api/persons");
   assert.strictEqual(response.body[1].lastName, patchContact.lastName);
+});
+
+test("A contact can be deleted", async () => {
+  const contactsAtStart = await helper.contactsInBD();
+  const contactToDelete = contactsAtStart[0];
+  const contactToDeleteId = String(contactToDelete._id);
+
+  await api.delete(`/api/persons/${contactToDeleteId}`).expect(204);
+  const conctactsAtEnd = await helper.contactsInBD();
+
+  const content = conctactsAtEnd.map((r) => r.lastName);
+  assert(!content.includes(contactToDelete.lastName));
+  assert.strictEqual(conctactsAtEnd.length, helper.initialContacts.length - 1);
 });
 
 after(async () => {
