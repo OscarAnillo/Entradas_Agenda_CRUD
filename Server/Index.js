@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const config = require("./Utils/config");
 const PersonRouter = require("./Controllers/contacts");
+const UserRouter = require("./Controllers/user");
 const middleware = require("./Utils/middleware");
 const mongoose = require("mongoose");
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(morgan("common"));
 
 app.use("/api/persons", PersonRouter);
+app.use("/api/users", UserRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

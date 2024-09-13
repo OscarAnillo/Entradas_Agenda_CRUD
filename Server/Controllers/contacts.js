@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const Person = require("../Model/Person");
+const User = require("../Model/User");
 
 router.get("/", async (req, res) => {
   try {
-    let allPersons = await Person.find({});
+    let allPersons = await Person.find({}).populate("user", {
+      username: 1,
+      name: 1,
+    });
     res.status(200).json(allPersons);
   } catch (err) {
     res.status(500).send(err);
@@ -21,6 +25,8 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   const body = req.body;
+  const user = await User.findById(body.userId);
+
   if (body.name === undefined || !body.name || !body.contact) {
     return res
       .status(400)
@@ -31,10 +37,14 @@ router.post("/", async (req, res, next) => {
     lastName: body.lastName,
     contact: body.contact,
     email: body.email,
+
+    user: user.id,
   });
 
   try {
     const personToSave = await newPerson.save();
+    user.persons = user.persons.concat(personToSave._id);
+    await user.save();
     res.status(201).json(personToSave);
   } catch (err) {
     next(err);

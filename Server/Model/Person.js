@@ -12,6 +12,10 @@ const personSchema = new mongoose.Schema({
     minLength: 10,
   },
   email: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Person", personSchema);
