@@ -1,6 +1,16 @@
 const router = require("express").Router();
 const Person = require("../Model/Person");
 const User = require("../Model/User");
+const jwt = require("jsonwebtoken");
+
+const getTokenFrom = (request) => {
+  console.log(7, request.get("authorization"));
+  const authorization = request.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+  return null;
+};
 
 router.get("/", async (req, res) => {
   try {
@@ -25,7 +35,11 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   const body = req.body;
-  const user = await User.findById(body.userId);
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "Token is invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
 
   if (body.name === undefined || !body.name || !body.contact) {
     return res
@@ -37,7 +51,6 @@ router.post("/", async (req, res, next) => {
     lastName: body.lastName,
     contact: body.contact,
     email: body.email,
-
     user: user.id,
   });
 

@@ -6,11 +6,11 @@ const User = require("../Model/User");
 userRouter.post("/", async (req, res) => {
   const { username, name, password } = req.body;
 
-  /* encrypt password */
+  /* Encrypt password */
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
-  /* user creation */
+  /* User creation */
   const user = new User({
     username,
     name,
