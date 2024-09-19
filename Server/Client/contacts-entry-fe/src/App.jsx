@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-import { getAllPersons } from "./Services/Persons";
+import { getAllPersons, setToken } from "./Services/Persons";
+import { loginService } from "./Services/Login";
 
 import { CreatePerson } from "./Components/CreatePerson";
 import { AllPersons } from "./Components/AllPersons";
 import { Route, Routes } from "react-router-dom";
 import { SingleUser } from "./Components/SingleUser";
+import { Login } from "./Components/Pages/login";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -17,7 +20,12 @@ function App() {
     email: "",
   });
   const [editing, setEditing] = useState(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
+  const navigate = useNavigate();
   const { name, lastName, contact, email } = userInput;
 
   useEffect(() => {
@@ -31,6 +39,34 @@ function App() {
       });
   }, [submitted]);
 
+  useEffect(() => {
+    const loggedAppUserJSON = window.localStorage.getItem("loggedAppUser");
+    if (loggedAppUserJSON) {
+      const user = JSON.parse(loggedAppUserJSON);
+      setUser(user);
+      setToken(user.token);
+    }
+  }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await loginService({ username, password });
+      window.localStorage.setItem(
+        "loggedAppUser",
+        JSON.stringify(user, null, 2)
+      );
+      setToken(user.token);
+      setUser(user);
+      setUsername("");
+      setPassword("");
+      setLoggedIn(true);
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="app">
       <Routes>
@@ -41,6 +77,10 @@ function App() {
               persons={persons}
               setSubmitted={setSubmitted}
               setEditing={setEditing}
+              loggedIn={loggedIn}
+              setUser={setUser}
+              setLoggedIn={setLoggedIn}
+              user={user}
             />
           }
         />
@@ -61,6 +101,18 @@ function App() {
           }
         />
         <Route path="/:id" element={<SingleUser />}></Route>
+        <Route
+          path="/login"
+          element={
+            <Login
+              handleLogin={handleLogin}
+              username={username}
+              setUsername={setUsername}
+              password={password}
+              setPassword={setPassword}
+            />
+          }
+        ></Route>
       </Routes>
     </div>
   );

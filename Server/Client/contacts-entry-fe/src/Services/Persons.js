@@ -1,6 +1,12 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3005/api/persons";
 
+let token = null;
+
+export const setToken = (newToken) => {
+  token = `Bearer ${newToken}`;
+};
+
 export const getAllPersons = async () => {
   let request = await axios.get(baseUrl);
   //return request.then((res) => res.data);
@@ -13,9 +19,14 @@ export const getSinglePerson = async (id) => {
   return request.data;
 };
 
-export const createNewPerson = (person) => {
-  let request = axios.post(baseUrl, person);
-  return request.then((res) => res.data);
+export const createNewPerson = async (person) => {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+  let request = await axios.post(baseUrl, person, config);
+  return request.data;
 };
 
 export const editNewPerson = async (id, update) => {

@@ -4,7 +4,6 @@ const User = require("../Model/User");
 const jwt = require("jsonwebtoken");
 
 const getTokenFrom = (request) => {
-  console.log(7, request.get("authorization"));
   const authorization = request.get("authorization");
   if (authorization && authorization.startsWith("Bearer ")) {
     return authorization.replace("Bearer ", "");

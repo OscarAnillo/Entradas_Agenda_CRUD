@@ -3,7 +3,15 @@ import { deletePerson } from "../Services/Persons";
 import { NavComponent } from "./NavComponent";
 import PropTypes from "prop-types";
 
-export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
+export const AllPersons = ({
+  persons,
+  setSubmitted,
+  setEditing,
+  loggedIn,
+  setUser,
+  setLoggedIn,
+  user,
+}) => {
   const navigate = useNavigate();
   const clickHandlerDelete = (id) => {
     deletePerson(id);
@@ -18,9 +26,14 @@ export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
 
   return (
     <>
-      <h1>Your Contacts</h1>
-      <NavComponent />
-      {persons.length ? (
+      <NavComponent
+        loggedIn={loggedIn}
+        setUser={setUser}
+        setLoggedIn={setLoggedIn}
+        user={user}
+      />
+      {persons.length > 0 && user !== null && <h1>Your Contacts</h1>}
+      {user !== null && persons.length ? (
         <div className="all-persons-div">
           {persons.map((person) => (
             <div key={person._id} className="all-persons-div-map">
@@ -52,7 +65,7 @@ export const AllPersons = ({ persons, setSubmitted, setEditing }) => {
           ))}
         </div>
       ) : (
-        <h1>No Contacts yet</h1>
+        <h1 className="no-contact-title">No Contacts yet</h1>
       )}
     </>
   );
@@ -65,4 +78,8 @@ AllPersons.propTypes = {
   contact: PropTypes.string,
   setUserinput: PropTypes.func,
   setEditing: PropTypes.func,
+  loggedIn: PropTypes.bool,
+  setUser: PropTypes.func,
+  setLoggedIn: PropTypes.func,
+  user: PropTypes.object,
 };
