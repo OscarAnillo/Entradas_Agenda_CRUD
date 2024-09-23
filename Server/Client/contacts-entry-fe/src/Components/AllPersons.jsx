@@ -32,7 +32,9 @@ export const AllPersons = ({
         setLoggedIn={setLoggedIn}
         user={user}
       />
-      {persons.length > 0 && user !== null && <h1>Your Contacts</h1>}
+      {persons.length > 0 && user !== null && (
+        <h1 className="contact-title">Contact List</h1>
+      )}
       {user !== null && persons.length ? (
         <div className="all-persons-div">
           {persons.map((person) => (

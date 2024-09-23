@@ -9,23 +9,33 @@ export const NavComponent = ({ loggedIn, setUser, setLoggedIn, user }) => {
   };
   return (
     <ul>
-      {loggedIn && (
-        <li>
-          logged-in as <b>{user.name}</b>
-        </li>
-      )}
+      <div className="div-nav-flex">
+        <div>
+          {loggedIn && (
+            <li>
+              Welcome <b>{user.name}!</b>
+            </li>
+          )}
+        </div>
+        <div>
+          {loggedIn && (
+            <li>
+              <Link onClick={clickHandlerSignOut} className="sign-a">
+                Sign out
+              </Link>
+            </li>
+          )}
+        </div>
+      </div>
       <li>
         {loggedIn ? (
-          <Link to="/add-contact">Add New Contact</Link>
+          <Link to="/add-contact" className="add-a">
+            Add A New Contact +
+          </Link>
         ) : (
           <Link to="/login">Log in</Link>
         )}
       </li>
-      {loggedIn && (
-        <li>
-          <Link onClick={clickHandlerSignOut}>Sign out</Link>
-        </li>
-      )}
     </ul>
   );
 };
