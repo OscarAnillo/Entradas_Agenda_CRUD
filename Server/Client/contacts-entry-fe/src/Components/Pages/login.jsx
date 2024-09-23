@@ -8,7 +8,7 @@ export const Login = ({
   setPassword,
 }) => {
   return (
-    <div>
+    <div className="main-div-login">
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
         <input

@@ -3,7 +3,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-boxs;
+  box-sizing: border-box;
   list-style: none;
 }
 .app {
@@ -198,6 +198,41 @@ ul li a {
   margin: 0.5em 0;
 }
 
+/* Login Component */
+.main-div-login {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  border: 1px solid #fff;
+  padding: 2em 1em;
+}
+.main-div-login form {
+  text-align: left;
+}
+.main-div-login form input {
+  border: none;
+  border-radius: 5px;
+  margin: 0.5em 0;
+  padding: 1em 0.5em;
+  width: 100%;
+}
+.main-div-login form input::placeholder {
+  color: #b9b9b9;
+  letter-spacing: 3px;
+  text-transform: capitalize;
+}
+.main-div-login form button {
+  background-color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  letter-spacing: 3px;
+  padding: 0.8em 1em;
+  text-transform: uppercase;
+}
+
 @media (min-width: 760px) {
   .form {
     max-width: 940px;
@@ -215,5 +250,8 @@ ul li a {
   .all-persons-div-map {
     margin: 0.5em 0.5em 0.5em 0;
     width: 200px;
+  }
+  .main-div-login {
+    max-width: 550px;
   }
 }
