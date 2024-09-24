@@ -31,10 +31,13 @@ export const NavComponent = ({ loggedIn, setUser, setLoggedIn, user }) => {
       <li>
         {loggedIn ? (
           <Link to="/add-contact" className="add-a">
-            Add A New Contact +
+            New Contact +
           </Link>
         ) : (
-          <Link to="/login">Log in</Link>
+          <div className="div-nav-flex-initial">
+            <Link to="/login">Log In</Link>
+            <Link to="/sign-up">Sign Up</Link>
+          </div>
         )}
       </li>
     </ul>

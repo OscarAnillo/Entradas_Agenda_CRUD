@@ -12,6 +12,10 @@
   padding: 1em;
   text-align: center;
   height: 100vh;
+  background-image: url("https://cdn.pixabay.com/photo/2024/05/15/16/15/sky-8763986_640.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* CreatePerson */
@@ -46,21 +50,26 @@
 }
 .form input {
   border: 1px solid #eee;
+  border-radius: 5px;
   margin: 0.5em 0;
-  padding: 0.5em 0 0.5em 0.3em;
+  padding: 1em 0.3em;
   width: 100%;
 }
 .form input::placeholder {
   color: #a39c9c;
   font-family: "Open Sans", sans-serif;
+  letter-spacing: 1px;
 }
+
 .form button {
-  background-color: coral;
+  background-color: red;
   border: none;
   border-radius: 5px;
   color: #fff;
   cursor: pointer;
   font-family: "Open Sans", sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
   padding: 0.5em 1em;
 }
 .form .btn-cancel {
@@ -77,7 +86,7 @@
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 5px;
-  box-shadow: 3px 5px 8px #a39c9c;
+  box-shadow: 3px 5px 8px #000000;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -108,9 +117,10 @@
   text-decoration: none;
 }
 .all-persons-div-map .btn-edit {
-  background-color: transparent;
+  background-color: red;
   border: 1px solid red;
   border-radius: 5px;
+  color: #fff;
   cursor: pointer;
   margin: 0.4em 0;
   padding: 0.2em 0.5em;
@@ -128,6 +138,12 @@
 /* SinglePerson */
 .single-user-div {
   font-family: "Open Sans", sans-serif;
+  color: #fff;
+  margin-top: 2em;
+}
+
+.single-user-div h1 {
+  color: #fff;
 }
 .single-user-div-image {
   border: 1px solid #333;
@@ -168,7 +184,7 @@
 .single-user-div .back-btn {
   border: none;
   border-radius: 5px;
-  box-shadow: 3px 5px 8px #a8a7a7;
+  box-shadow: 3px 5px 8px #000;
   padding: 0.7em 1.5em;
   text-transform: uppercase;
 }
@@ -178,7 +194,6 @@ ul li a {
   text-decoration: none;
 }
 .div-nav-flex {
-  /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -188,14 +203,26 @@ ul li a {
   color: red;
 }
 .add-a {
-  border: 1px solid red;
+  border: 1px solid #fff;
   border-radius: 5px;
-  color: #000;
+  color: #fff;
   font-size: 1rem;
   padding: 0.3em 1em;
 }
 .contact-title {
+  color: #fff;
   margin: 0.5em 0;
+}
+.div-nav-flex-initial {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 1em 0;
+}
+.div-nav-flex-initial a {
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  margin-right: 2em;
 }
 
 /* Login Component */
@@ -207,6 +234,11 @@ ul li a {
   width: 90%;
   border: 1px solid #fff;
   padding: 2em 1em;
+}
+.main-div-login h1 {
+  color: #fff;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
 .main-div-login form {
   text-align: left;
@@ -220,7 +252,7 @@ ul li a {
 }
 .main-div-login form input::placeholder {
   color: #b9b9b9;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   text-transform: capitalize;
 }
 .main-div-login form button {

@@ -33,7 +33,7 @@ export const AllPersons = ({
         user={user}
       />
       {persons.length > 0 && user !== null && (
-        <h1 className="contact-title">Contact List</h1>
+        <h1 className="contact-title">Contacts List</h1>
       )}
       {user !== null && persons.length ? (
         <div className="all-persons-div">
@@ -67,7 +67,7 @@ export const AllPersons = ({
           ))}
         </div>
       ) : (
-        <h1 className="no-contact-title">No Contacts yet</h1>
+        <h1 className="no-contact-title">Your Contacts App</h1>
       )}
     </>
   );
