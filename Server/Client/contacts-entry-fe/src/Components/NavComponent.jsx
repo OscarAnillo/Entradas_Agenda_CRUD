@@ -6,6 +6,7 @@ export const NavComponent = ({ loggedIn, setUser, setLoggedIn, user }) => {
     setUser(null);
     setLoggedIn(false);
     window.localStorage.removeItem("loggedAppUser");
+    window.localStorage.removeItem("loggedIn");
   };
   return (
     <ul>

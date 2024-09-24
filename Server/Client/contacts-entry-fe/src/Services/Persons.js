@@ -9,13 +9,11 @@ export const setToken = (newToken) => {
 
 export const getAllPersons = async () => {
   let request = await axios.get(baseUrl);
-  //return request.then((res) => res.data);
   return request.data;
 };
 
 export const getSinglePerson = async (id) => {
   let request = await axios.get(`${baseUrl}/${id}`);
-  //return request.then((res) => res.data);
   return request.data;
 };
 

@@ -41,10 +41,12 @@ function App() {
 
   useEffect(() => {
     const loggedAppUserJSON = window.localStorage.getItem("loggedAppUser");
-    if (loggedAppUserJSON) {
+    const loggedAppUser = window.localStorage.getItem("loggedIn");
+    if (loggedAppUserJSON && loggedAppUser) {
       const user = JSON.parse(loggedAppUserJSON);
       setUser(user);
       setToken(user.token);
+      setLoggedIn(Boolean(loggedAppUser));
     }
   }, []);
 
@@ -61,9 +63,10 @@ function App() {
       setUsername("");
       setPassword("");
       setLoggedIn(true);
+      window.localStorage.setItem("loggedIn", loggedIn);
       navigate("/");
     } catch (err) {
-      console.log(err);
+      alert(err.response.data.error);
     }
   };
 
