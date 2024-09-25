@@ -4,21 +4,16 @@ import { loginService } from "./Services/Login";
 
 import { CreatePerson } from "./Components/CreatePerson";
 import { AllPersons } from "./Components/AllPersons";
-import { Route, Routes } from "react-router-dom";
 import { SingleUser } from "./Components/SingleUser";
 import { Login } from "./Components/Pages/login";
 import { useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+
 import "./App.css";
 
 function App() {
   const [persons, setPersons] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-  const [userInput, setUserinput] = useState({
-    name: "",
-    lastName: "",
-    contact: "",
-    email: "",
-  });
   const [editing, setEditing] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +21,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const navigate = useNavigate();
-  const { name, lastName, contact, email } = userInput;
 
   useEffect(() => {
     getAllPersons()
@@ -92,12 +86,6 @@ function App() {
           element={
             <CreatePerson
               setSubmitted={setSubmitted}
-              name={name}
-              lastName={lastName}
-              contact={contact}
-              email={email}
-              userInput={userInput}
-              setUserinput={setUserinput}
               editing={editing}
               setEditing={setEditing}
             />

@@ -11,7 +11,7 @@
   font-family: "Open Sans", sans-serif;
   padding: 1em;
   text-align: center;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url("https://cdn.pixabay.com/photo/2024/05/15/16/15/sky-8763986_640.jpg");
   background-position: center;
   background-size: cover;
@@ -73,7 +73,7 @@
   padding: 0.5em 1em;
 }
 .form .btn-cancel {
-  background-color: red;
+  background-color: navy;
   margin-left: 0.5em;
 }
 

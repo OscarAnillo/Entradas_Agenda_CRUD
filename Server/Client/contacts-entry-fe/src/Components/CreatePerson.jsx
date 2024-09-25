@@ -1,20 +1,17 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { createNewPerson, editNewPerson } from "../Services/Persons";
-import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export const CreatePerson = ({
-  name,
-  lastName,
-  contact,
-  email,
-  userInput,
-  setUserinput,
-  setSubmitted,
-  editing,
-  setEditing,
-}) => {
+export const CreatePerson = ({ setSubmitted, editing, setEditing }) => {
+  const [userInput, setUserinput] = useState({
+    name: "",
+    lastName: "",
+    contact: "",
+    email: "",
+  });
   const navigate = useNavigate();
+
   const changeHandler = (e) => {
     const { name, value } = e.target;
     setUserinput({
@@ -22,6 +19,7 @@ export const CreatePerson = ({
       [name]: value,
     });
   };
+  const { name, lastName, contact, email } = userInput;
 
   useEffect(() => {
     if (editing) {
